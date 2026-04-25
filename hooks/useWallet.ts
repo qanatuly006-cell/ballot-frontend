@@ -95,5 +95,15 @@ useEffect(() => {
       window.ethereum?.removeListener?.("accountsChanged", handleAccountsChanged);
       window.ethereum?.removeListener?.("chainChanged", handleChainChanged);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
+  return {
+    provider,
+    signer,
+    contract,
+    account,
+    status,
+    setStatus,
+    connectWallet,
+  };
+}
