@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xcEeEC462805A428C7417D76EE619f873de20413A";
+export const CONTRACT_ADDRESS = "0x4F57B53994349E428C6bb5acEdD841698ab43446";
 
 export const ABI = [
   "function chairperson() view returns (address)",

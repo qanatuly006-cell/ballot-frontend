@@ -69,6 +69,25 @@ useEffect(() => {
       window.location.reload();
     };
 
+    // Автоподключение если кошелек уже был подключен
+    void (async () => {
+      try {
+        const browserProvider = new BrowserProvider(window.ethereum!);
+        const accounts = await browserProvider.send("eth_accounts", []);
+        if (accounts.length > 0) {
+          const currentSigner = await browserProvider.getSigner();
+          const currentContract = new Contract(CONTRACT_ADDRESS, ABI, currentSigner);
+          setProvider(browserProvider);
+          setSigner(currentSigner);
+          setContract(currentContract);
+          setAccount(await currentSigner.getAddress());
+          setStatus("Кошелек подключен");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
     window.ethereum.on?.("accountsChanged", handleAccountsChanged);
     window.ethereum.on?.("chainChanged", handleChainChanged);
 
@@ -77,13 +96,3 @@ useEffect(() => {
       window.ethereum?.removeListener?.("chainChanged", handleChainChanged);
     };
   }, []);
-  return {
-    provider,
-    signer,
-    contract,
-    account,
-    status,
-    setStatus,
-    connectWallet,
-  };
-}
